@@ -121,5 +121,4 @@ call plug#end()
 " Change cursor shape between insert and normal mode in iTerm2.app
 
 " making Go To File work in Javascript
-"
-"
+set includeexpr=substitute(v:fname,'zipper-desktop\\(.*\\)','./src\\1.js','')
