@@ -121,6 +121,10 @@ alias zz="vim ~/.zshrc"
 # random
 alias http-date="date -u +%a,\ %d\ %b\ %Y\ %H:%M:%S\ GMT"
 
+# ctags
+alias ctags="`brew --prefix`/bin/ctags"
+alias gt="ctags -R --exclude=.git --exclude=dist --exclude=node_modules --exclude=log *"
+
 google() {
     open -a "Google Chrome" https://www.google.com/search\?q\="$*"
 }
@@ -187,5 +191,5 @@ export YVM_DIR="/Users/kais/.yvm"
 [ -s "$YVM_DIR/yvm.sh" ] && . "$YVM_DIR/yvm.sh"
 
 # vim mode
-bindkey -v
+# bindkey -v
 

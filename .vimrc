@@ -31,7 +31,8 @@ set relativenumber
 set noswapfile
 set hidden
 set hlsearch
-set wildignore+=*/node_modules/*
+set wildignore+=**/node_modules/**
+set incsearch
 
 " Mappings
 "
@@ -45,6 +46,10 @@ map <C-c> y:e ~/clipsongzboard<CR>P:w !pbcopy<CR><CR>:bdelete!<CR>
 nmap <S-Enter> O<Esc>
 nmap <CR> o<Esc>
 
+" Add empty line in normal mode with Enter
+nmap <C-J> }
+nmap <C-K> {
+
 " Press Space to turn off highlighting and clear any message already displayed.
 :nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
@@ -53,6 +58,8 @@ nmap <CR> o<Esc>
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_open_new_file = 'v'
+let g:ctrlp_show_hidden = 1
 let g:ctrlp_abbrev = {
   \ 'gmode': 'i',
   \ 'abbrevs': [
@@ -64,8 +71,10 @@ let g:ctrlp_abbrev = {
     \ ]
   \ }
 
-" enhance YCM JS completion with tern's smarts
-autocmd FileType javascript setlocal omnifunc=tern#Complete
+" Gutentags
+
+let g:gutentags_define_advanced_commands = 1
+let g:gutentags_file_list_command = 'git ls-files'
 
 " Plugs
 
@@ -85,16 +94,17 @@ Plug 'kien/ctrlp.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'tpope/vim-fugitive'
 Plug 'leafgarland/typescript-vim'
+
+"tpope art
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-rails'
 
 " Change inside
 Plug 'wellle/targets.vim'
 
-" Autocomplete JS
-Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --tern-completer' }
-Plug 'ternjs/tern_for_vim', { 'for': 'javascript' }
-
+" IDE magic, autocompletion, linting, language server
+Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --all' }
+Plug 'ludovicchabant/vim-gutentags'
 call plug#end()
 
 " Food for thought
@@ -110,3 +120,6 @@ call plug#end()
 "
 " Change cursor shape between insert and normal mode in iTerm2.app
 
+" making Go To File work in Javascript
+"
+"
