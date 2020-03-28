@@ -4,6 +4,7 @@
     "javascript",
     "markdown",
     "typescript",
+    "sh",
     "json"
   ],
   "tsserver.enable": true,
@@ -14,10 +15,19 @@
   "languageserver": {
     "tsserver": {
       "module": "/Users/kais/.config/coc/extensions/node_modules/coc-tsserver/bin/tsserverForkStart.js",
-    
       "filetypes": ["typescript", "javascript"]
     }
-
+  },
+  "diagnostic-languageserver.filetypes": {
+    "sh": "shellcheck"
+  },
+  "diagnostic-languageserver.formatFiletypes": {
+    "sh": "shfmt"
+  },
+  "diagnostic-languageserver.formatters": {
+    "shfmt": {
+      "command": "shfmt",
+      "args": ["-i", "2", "-bn", "-ci", "-sr"]
+    }
   }
 }
-
