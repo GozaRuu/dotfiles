@@ -149,22 +149,9 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 " MAPPINGS
 "
-" sudow
+" sudo write
 "
 cnoremap sudow w !sudo tee % >/dev/null
 
@@ -224,54 +211,6 @@ command! -nargs=? -bang -complete=dir FzfFiles
   \ call fzf#vim#files(<q-args>, <bang>0 ? fzf#vim#with_preview('up:60%') : {}, <bang>0)
 command FzfChanges call s:fzf_changes()
 
-" CtrlP
-" let g:ctrlp_map = '<c-p>'
-" let g:ctrlp_cmd = 'CtrlP'
-" let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-" let g:ctrlp_open_new_file = 'v'
-" let g:ctrlp_show_hidden = 1
-" let g:ctrlp_abbrev = {
-"   \ 'gmode': 'i',
-"   \ 'abbrevs': [
-"     \ {
-"       \ 'pattern': ' ',
-"       \ 'expanded': '',
-"       \ 'mode': 'pfrz',
-"     \ },
-"     \ ]
-"   \ }
-
-" Gutentags
-let g:gutentags_define_advanced_commands = 1
-let g:gutentags_file_list_command = 'git ls-files'
-
-" YCM
-" disable linting
-let g:ycm_enable_diagnostic_signs = 0
-let g:ycm_enable_diagnostic_highlighting = 0
-
-" Ale
-" let g:ale_fix_on_save = 1
-" let g:ale_javascript_tsserver_use_global = 1
-" let g:ale_typescript_tsserver_executable = 'tsserver'
-" let g:ale_javascript_prettier_use_local_config = 1
-" " let g:ale_linters_explicit = 1
-" let g:ale_sign_column_always = 1
-" let g:ale_completion_tsserver_autoimport = 1
-" let g:ale_use_global_executables = 1
-" let g:ale_fixers = {
-"   \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-"   \ 'typescript': ['prettier', 'eslint'],
-"   \ 'javascript': ['prettier', 'eslint'],
-"   \ 'css': ['prettier'],
-" \}
-
-" let g:ale_typescript_standard_use_global = 1
-" let g:ale_typescript_tslint_executable = 'eslint'
-" let g:ale_typescript_tslint_use_global = 0
-" let g:ale_typescript_tsserver_executable = 'tsserver'
-" let g:ale_typescript_tsserver_use_global = 1
-
 " Typescript-vim
 let g:typescript_indent_disable = 1
 
@@ -289,10 +228,6 @@ Plug 'tpope/vim-pathogen'
 Plug 'itchyny/calendar.vim'
 Plug 'vim-scripts/SyntaxRange'
 
-" no more ctrlP
-" Plug 'kien/ctrlp.vim'
-"
-"
 " Search Art
 Plug 'junegunn/fzf.vim'
 Plug '/usr/local/opt/fzf'
@@ -326,9 +261,6 @@ Plug 'slim-template/vim-slim'
 " Change inside
 Plug 'wellle/targets.vim'
 
-" IDE magic, autocompletion, linting, ctags, ctags-regen, language server
-" Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --all' }
-" Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
 
 " Markdown
@@ -338,7 +270,7 @@ Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 call plug#end()
 
 
-" Display CWD tree on the side
+" NetRW
 let g:NetrwIsOpen=0
 
 function! ToggleNetrw()
