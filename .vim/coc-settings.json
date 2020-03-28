@@ -1,0 +1,23 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "javascript",
+    "markdown",
+    "typescript",
+    "json"
+  ],
+  "tsserver.enable": true,
+  "tsserver.enableJavascript": true,
+  "tsserver.npm": "/usr/local/bin/npm",
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "languageserver": {
+    "tsserver": {
+      "module": "/Users/kais/.config/coc/extensions/node_modules/coc-tsserver/bin/tsserverForkStart.js",
+    
+      "filetypes": ["typescript", "javascript"]
+    }
+
+  }
+}
+
