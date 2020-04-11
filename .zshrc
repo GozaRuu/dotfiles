@@ -9,10 +9,10 @@ source $ZSH/oh-my-zsh.sh
 
 alias vim='mvim -v'
 alias setupTsJest='yarn add --dev jest @types/jest ts-jest @types/node typescript'
-alias sizedir='du -ksh'
+alias szd='du -ksh'
 
 # Doctolib Specific
-alias serv="git pull && docker-compose start && bundle && HTTPS=1 rails db:migrate RAILS_ENV=development && rails s thin -b 127.0.0.1"
+alias serv="docker-compose start && bundle && HTTPS=1 rails db:migrate RAILS_ENV=development && rails s thin -b 127.0.0.1"
 alias dev="yarn && yarn dev:https"
 
 # Git
@@ -28,6 +28,7 @@ alias diffp="git diff head^"
 alias repo-ignore="code .git/info/exclude"
 alias git-hist="git log --name-status -10"
 alias grb="git branch --sort=-committerdate | head"
+alias opports="netstat -ntl"
 
 # Rails
 alias kill-rails="tail -n 1 tmp/pids/server.pid | xargs kill -9"
@@ -39,6 +40,12 @@ forward() {
 }
 alias back='git checkout head~'
 
+# robocop
+#
+rbc() {
+   git status | grep 'modified:\|new file:*.rb' | cut -f2 -d: | sed 's/^ *//' | xargs rubocop -a
+}
+
 
 # Edit config Files
 alias vv="vim ~/.vimrc"
@@ -46,6 +53,7 @@ alias zz="vim ~/.zshrc"
 
 # Random
 alias http-date="date -u +%a,\ %d\ %b\ %y\ %h:%m:%s\ gmt"
+alias wt="curl wttr.in"
 
 # Ctags
 alias ctags="`brew --prefix`/bin/ctags"
@@ -53,6 +61,21 @@ alias gt="`brew --prefix`/bin/ctags -R --exclude=.git --exclude=dist --exclude=n
 
 # Some whacky shit
 #
+
+turnout() {
+  echo "download the file and give the candidte name as first argument kebab-case"
+  cd ~/Downloads
+  mkdir "$1"
+  cp turnin.git.zip "$1"
+  cd "$1"
+  unzip turnin.git.zip
+  git clone turnin.git
+  mkdir ~/projects/job-applications/javascript/test-review-machine/src/candidates/"$1"
+  cp ./turnin/src/* ~/projects/job-applications/javascript/test-review-machine/src/candidates/"$1"
+  cd ~/projects/job-applications/javascript/test-review-machine
+  yarn test "$1"
+}
+
 google() {
     open -a "google chrome" https://www.google.com/search\?q\="$*"
 }
