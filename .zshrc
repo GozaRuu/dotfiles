@@ -10,6 +10,7 @@ source $ZSH/oh-my-zsh.sh
 alias vim='mvim -v'
 alias setupTsJest='yarn add --dev jest @types/jest ts-jest @types/node typescript'
 alias szd='du -ksh'
+alias lstp='lsof -nP -iTCP | grep LISTEN'
 
 # Doctolib Specific
 alias serv="docker-compose start && bundle && HTTPS=1 rails db:migrate RAILS_ENV=development && rails s thin -b 127.0.0.1"
