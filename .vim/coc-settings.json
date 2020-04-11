@@ -1,5 +1,6 @@
 {
   "coc.preferences.formatOnSaveFiletypes": [
+    "html",
     "css",
     "javascript",
     "markdown",
@@ -12,6 +13,10 @@
   "tsserver.npm": "/usr/local/bin/npm",
   "prettier.semi": false,
   "prettier.singleQuote": true,
+  "solargraph.hover": true,
+  "solargraph.diagnostics": true,
+  "solargraph.formatting": true,
+  "solargraph.autoformat": true,
   "languageserver": {
     "tsserver": {
       "module": "/Users/kais/.config/coc/extensions/node_modules/coc-tsserver/bin/tsserverForkStart.js",
