@@ -2,12 +2,16 @@
   "coc.preferences.formatOnSaveFiletypes": [
     "html",
     "css",
+    "python",
     "javascript",
     "markdown",
     "typescript",
     "sh",
-    "json"
+    "json",
+    "powershell"
   ],
+  "python.linting.pep8Enabled": true,
+  "python.jediEnabled": false,
   "tsserver.enable": true,
   "tsserver.enableJavascript": true,
   "tsserver.npm": "/usr/local/bin/npm",
