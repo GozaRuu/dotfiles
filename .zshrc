@@ -6,7 +6,6 @@ plugins=(git rbenv nvm bundler dotenv osx rake ruby brew docker docker-compose n
 source $ZSH/oh-my-zsh.sh
 
 # Aliases and functions
-
 alias vim='mvim -v'
 alias setupTsJest='yarn add --dev jest @types/jest ts-jest @types/node typescript'
 alias szd='du -ksh'
@@ -29,10 +28,67 @@ alias diffp="git diff head^"
 alias repo-ignore="code .git/info/exclude"
 alias git-hist="git log --name-status -10"
 alias grb="git branch --sort=-committerdate | head"
-alias opports="netstat -ntl"
+alias gmbd="git diff $(git merge-base --fork-point master)"
 
 # Rails
 alias kill-rails="tail -n 1 tmp/pids/server.pid | xargs kill -9"
+
+# Fzf
+b() {
+  local open ruby output
+  open=xdg-open
+  ruby=$(which ruby)
+  output=$($ruby << EORUBY
+# encoding: utf-8
+
+require 'json'
+FILE = 'Library/Application\ Support/Google/Chrome/Profile\ 1/Bookmarks'
+CJK  = /\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/
+
+def build parent, json
+  name = [parent, json['name']].compact.join('/')  
+  if json['type'] == 'folder'
+    json['children'].map { |child| build name, child }
+  else
+    { name: name, url: json['url'] }
+  end
+end
+
+def just str, width
+  str.ljust(width - str.scan(CJK).length)
+end
+
+def trim str, width
+  len = 0
+  str.each_char.each_with_index do |char, idx|
+    len += char =~ CJK ? 2 : 1
+    return str[0, idx] if len > width
+  end
+  str
+end
+
+width = `tput cols`.to_i / 2
+json  = JSON.load File.read File.expand_path FILE
+items = json['roots']
+        .values_at(*%w(bookmark_bar synced other))
+        .compact
+        .map { |e| build nil, e }
+        .flatten
+
+items.each do |item|
+  name = trim item[:name], width
+  puts [just(name, width),
+        item[:url]].join("\t\x1b[36m") + "\x1b[m"
+end
+EORUBY
+)
+
+  echo -e "$output"                                            |
+  fzf-tmux -u 30% --ansi --multi --no-hscroll --tiebreak=begin |
+  awk 'BEGIN { FS = "\t" } { print $2 }'                       |
+  xargs open &>/dev/null
+
+}
 
 # Go forward in git commit hierarchy, towards particular commit
 # usage: forward master, back
@@ -55,6 +111,11 @@ alias zz="vim ~/.zshrc"
 # Random
 alias http-date="date -u +%a,\ %d\ %b\ %y\ %h:%m:%s\ gmt"
 alias wt="curl wttr.in"
+alias opports="netstat -ntl"
+function raw-curl() {
+  curl -ivs --raw "$1" | bat 
+}
+
 
 # Ctags
 alias ctags="`brew --prefix`/bin/ctags"

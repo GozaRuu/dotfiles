@@ -42,6 +42,9 @@ set ignorecase
 " don't drag comments in new lines
 set formatoptions-=cro
 
+" exprimental 
+set mmp=5000
+
 
 " autocmd FileType ruby let b:coc_suggest_disable = 1
 
@@ -243,6 +246,9 @@ Plug 'PProvost/vim-ps1'
 " JS and TS
 Plug 'pangloss/vim-javascript'
 Plug 'HerringtonDarkholme/yats.vim'
+
+" ReStructuredText
+Plug 'rykka/riv.vim'
 
 " Nim
 Plug 'zah/nim.vim/'
