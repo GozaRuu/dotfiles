@@ -7,7 +7,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Aliases and functions
 alias vim='mvim -v'
-alias setupTsJest='yarn add --dev jest @types/jest ts-jest @types/node typescript'
+alias setupTsJest='yarn add --dev jest @types/jest ts-jest @types/node typescript eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin'
 alias szd='du -ksh'
 alias lstp='lsof -nP -iTCP | grep LISTEN'
 
@@ -29,6 +29,7 @@ alias repo-ignore="code .git/info/exclude"
 alias git-hist="git log --name-status -10"
 alias grb="git branch --sort=-committerdate | head"
 alias gmbd="git diff $(git merge-base --fork-point master)"
+alias master="git checkout master && git pull"
 
 # Rails
 alias kill-rails="tail -n 1 tmp/pids/server.pid | xargs kill -9"
@@ -93,7 +94,7 @@ EORUBY
 # Go forward in git commit hierarchy, towards particular commit
 # usage: forward master, back
 forward() {
-  git checkout $(git rev-list --topo-order head.."$*" | tail -1)
+  git checkout $(git rev-list --topo-order HEAD.."$*" | tail -1)
 }
 alias back='git checkout head~'
 
