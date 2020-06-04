@@ -28,13 +28,28 @@ alias diffp="git diff head^"
 alias repo-ignore="code .git/info/exclude"
 alias git-hist="git log --name-status -10"
 alias grb="git branch --sort=-committerdate | head"
+alias grb1="grb | awk 'NR==1 {print $1}' | xargs git checkout"
+alias grb2="grb | awk 'NR==2 {print $1}' | xargs git checkout"
+alias grb3="grb | awk 'NR==3 {print $1}' | xargs git checkout"
+alias grb4="grb | awk 'NR==4 {print $1}' | xargs git checkout"
 alias gmbd="git diff $(git merge-base --fork-point master)"
 alias master="git checkout master && git pull"
 
 # Rails
 alias kill-rails="tail -n 1 tmp/pids/server.pid | xargs kill -9"
 
-# Fzf
+# PERSONAL: tstrap
+function tstrap() {
+  [ -z $1 ] && echo "project name not specified"  && echo "Usage: tstrap <project-name>" && return
+  
+   git clone --depth 1 git@github.com:GozaRuu/tstrap.git "$1"
+   cd "$1"
+   rm -rf .git
+   git init
+   yarn
+}
+
+# Fzf magic
 b() {
   local open ruby output
   open=xdg-open
@@ -101,7 +116,7 @@ alias back='git checkout head~'
 # robocop
 #
 rbc() {
-   git status | grep 'modified:\|new file:*.rb' | cut -f2 -d: | sed 's/^ *//' | xargs rubocop -a
+   git status | grep  '[modified:|new file:].*\.rb' | cut -f2 -d: | sed 's/^ *//' | xargs rubocop -a
 }
 
 
