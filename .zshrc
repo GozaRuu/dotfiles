@@ -10,10 +10,7 @@ alias vim='mvim -v'
 alias setupTsJest='yarn add --dev jest @types/jest ts-jest @types/node typescript eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin'
 alias szd='du -ksh'
 alias lstp='lsof -nP -iTCP | grep LISTEN'
-
-# Doctolib Specific
-alias serv="docker-compose start && bundle && HTTPS=1 rails db:migrate RAILS_ENV=development && rails s thin -b 127.0.0.1"
-alias dev="yarn && yarn dev:https"
+alias dos2unix="perl -pi -e 's/\r\n/\n/g'"
 
 # Git
 alias clean="git reset --hard && git clean -f -d"
@@ -32,6 +29,8 @@ alias grb1="grb | awk 'NR==1 {print $1}' | xargs git checkout"
 alias grb2="grb | awk 'NR==2 {print $1}' | xargs git checkout"
 alias grb3="grb | awk 'NR==3 {print $1}' | xargs git checkout"
 alias grb4="grb | awk 'NR==4 {print $1}' | xargs git checkout"
+alias grb5="grb | awk 'NR==5 {print $1}' | xargs git checkout"
+alias grb6="grb | awk 'NR==6 {print $1}' | xargs git checkout"
 alias gmbd="git diff $(git merge-base --fork-point master)"
 alias master="git checkout master && git pull"
 
@@ -46,7 +45,7 @@ function tstrap() {
    cd "$1"
    rm -rf .git
    git init
-   yarn
+   yarn upgrade --latest
 }
 
 # Fzf magic
@@ -106,8 +105,8 @@ EORUBY
 
 }
 
-# Go forward in git commit hierarchy, towards particular commit
-# usage: forward master, back
+# Go forward in commit history, towards particular commit
+# usage: forward master
 forward() {
   git checkout $(git rev-list --topo-order HEAD.."$*" | tail -1)
 }
@@ -116,7 +115,7 @@ alias back='git checkout head~'
 # robocop
 #
 rbc() {
-   git status | grep  '[modified:|new file:].*\.rb' | cut -f2 -d: | sed 's/^ *//' | xargs rubocop -a
+   git status | grep  'modified:\|new file:.*\.rb' | cut -f2 -d: | sed 's/^ *//' | xargs rubocop -a
 }
 
 
@@ -141,7 +140,7 @@ alias gt="`brew --prefix`/bin/ctags -R --exclude=.git --exclude=dist --exclude=n
 #
 
 turnout() {
-  echo "download the file and give the candidte name as first argument kebab-case"
+  echo "run 'rm  ~/Downloads/turnin*' download the file and give the candidte name as first argument kebab-case"
   cd ~/Downloads
   mkdir "$1"
   cp turnin.git.zip "$1"
@@ -151,6 +150,8 @@ turnout() {
   mkdir ~/projects/job-applications/javascript/test-review-machine/src/candidates/"$1"
   cp ./turnin/src/* ~/projects/job-applications/javascript/test-review-machine/src/candidates/"$1"
   cd ~/projects/job-applications/javascript/test-review-machine
+  git pull
+  yarn
   yarn test "$1"
 }
 
@@ -173,10 +174,6 @@ r() {
 
 # Github
 
-prs() {
-    open -a "google chrome" https://github.com/doctolib/zipper-desktop/pulls
-}
-
 pr() {
     branch_name=$(git rev-parse --abbrev-ref HEAD)
     hub pr show -h $branch_name
@@ -198,17 +195,22 @@ export NVM_DIR="$HOME/.nvm"
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH=$PATH:"$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # this is to solve rails related issue on mac
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 # android emulator
 export ANDROID_SDK=$HOME/Library/Android/sdk
-export PATH=$ANDROID_SDK/emulator:$ANDROID_SDK/tools:$PATH
+export PATH=$PATH:$ANDROID_SDK/emulator:$ANDROID_SDK/tools:$PATH
 
 # rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+
+# python
+
+export PATH=$PATH:"/Users/kais/Library/Python/3.7/bin"
 
 
 # qt

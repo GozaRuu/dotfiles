@@ -139,8 +139,8 @@ omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
 " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
+" nmap <silent> <TAB> <Plug>(coc-range-select)
+" xmap <silent> <TAB> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
@@ -154,8 +154,14 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
+" Copy full file path to clipboard
+"
+:command! Cpb let @+ = expand('%:p')
 
 
+
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " MAPPINGS
 "
@@ -180,6 +186,13 @@ nnoremap <silent> <leader>F :FzfFiles!<CR>
 " move between paragraphs
 map <C-J> }
 map <C-K> {
+
+" yank file name and line
+function! CopyFileAndLine()
+  let @+ = expand('%:p').':'.line('.')
+endfunction
+inoremap <silent> <F6> <Esc>:call CopyFileAndLine()<CR>
+nnoremap <silent> <F6> :call CopyFileAndLine()<CR>
 
 " Press Space to turn off highlighting and clear any message already displayed.
 :nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
@@ -222,6 +235,11 @@ command FzfChanges call s:fzf_changes()
 " Typescript-vim
 let g:typescript_indent_disable = 1
 
+
+" Coc.nvim extensions
+" let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-solargraph', 'coc-tsserver', 'coc-eslint', 'coc-eslint', 'coc-html', 'coc-python', 'coc-powershell', 'coc-prettier', 'coc-yank']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-solargraph', 'coc-tsserver', 'coc-eslint', 'coc-eslint', 'coc-html', 'coc-python', 'coc-prettier', 'coc-yank', 'coc-elixir']
+
 " Plugs
 call plug#begin('~/.vim/plugged')
 
@@ -229,12 +247,11 @@ Plug 'jceb/vim-orgmode'
 Plug 'tpope/vim-speeddating'
 Plug 'vim-scripts/utl.vim'
 Plug 'tpope/vim-repeat'
-Plug 'vim-scripts/taglist.vim'
-Plug 'majutsushi/tagbar'
-Plug 'chrisbra/NrrwRgn'
 Plug 'tpope/vim-pathogen'
 Plug 'itchyny/calendar.vim'
 Plug 'vim-scripts/SyntaxRange'
+Plug 'guns/vim-sexp'
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
 
 " Search Art
 Plug 'junegunn/fzf.vim'
@@ -250,11 +267,17 @@ Plug 'HerringtonDarkholme/yats.vim'
 " ReStructuredText
 Plug 'rykka/riv.vim'
 
+" Elixir
+Plug 'elixir-editors/vim-elixir'
+
 " Nim
-Plug 'zah/nim.vim/'
+Plug 'zah/nim.vim'
+
+" CoffeeScript
+Plug 'kchmck/vim-coffee-script'
 
 " coc.nvim
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Git
 Plug 'airblade/vim-gitgutter'
@@ -276,6 +299,9 @@ Plug 'wellle/targets.vim'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+
+" Screenplays
+Plug 'kblin/vim-fountain'
 call plug#end()
 
 
@@ -323,9 +349,3 @@ function! s:DiffWithSaved()
   exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 com! DiffSaved call s:DiffWithSaved()
-
-
-" Doctolib specific
-
-" making Go To File work in Javascript
-set includeexpr=substitute(v:fname,'zipper-desktop\\(.*\\)','./src\\1.\(js\|ts\)','')
