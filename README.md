@@ -5,10 +5,11 @@ my terminal lives here. if this repo dies, i'm configuring vim from scratch agai
 ## what's in the box
 
 ```
-.vimrc                    the big one. coc.nvim, fzf, solarized8, 400+ lines of muscle memory
-.zshrc                    oh-my-zsh + p10k, nvm, bun, conda, aliases i can't live without
+.vimrc                    vim — coc.nvim, fzf, solarized8, the old faithful
+.config/nvim/init.lua     neovim — lazy.nvim, native LSP, treesitter, the new hotness
+.zshrc                    oh-my-zsh + p10k, nvm, bun, aliases i can't live without
 .gitconfig                delta pager because default diff is pain
-.vim/coc-settings.json    typescript/react lsp config
+.vim/coc-settings.json    typescript/react coc config (vim only)
 vim/spell/en.utf-8.add    so vim stops yelling at "Podspec" and "TypeScript"
 ```
 
@@ -24,14 +25,19 @@ mkdir -p ~/.vim
 ln -sf ~/projects/dotfiles/.vim/coc-settings.json ~/.vim/coc-settings.json
 ln -sf ~/projects/dotfiles/vim ~/vim
 
-# then open vim and let it cook
+# vim — old faithful
 vim +PlugInstall +qa
+
+# neovim — the new hotness
+mkdir -p ~/.config/nvim
+ln -sf ~/projects/dotfiles/.config/nvim/init.lua ~/.config/nvim/init.lua
+nvim +qa  # lazy.nvim auto-installs everything on first launch
 ```
 
 ## prerequisites (brew)
 
 ```bash
-brew install macvim fzf fd bat ripgrep delta nvm
+brew install macvim neovim fzf fd bat ripgrep delta nvm
 ```
 
 ## vim vibes
