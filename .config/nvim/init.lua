@@ -278,15 +278,16 @@ require("lazy").setup({
     end,
   },
 
-  -- file explorer (replaces NERDTree)
+  -- file explorer (side panel like NERDTree)
   {
-    "stevearc/oil.nvim",
+    "nvim-tree/nvim-tree.lua",
     config = function()
-      require("oil").setup({
-        view_options = { show_hidden = true },
+      require("nvim-tree").setup({
+        view = { width = 30 },
+        filters = { dotfiles = false },
       })
-      map("n", "<C-n>", ":Oil<CR>")
-      map("n", "-", ":Oil<CR>")
+      map("n", "<C-n>", ":NvimTreeToggle<CR>")
+      map("n", "<C-m>", ":NvimTreeFindFile<CR>")
     end,
   },
 
