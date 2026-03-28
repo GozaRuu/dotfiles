@@ -127,6 +127,7 @@ alias dev="git checkout develop && git pull"
 alias vv="vim ~/.vimrc"
 alias zz="vim ~/.zshrc"
 alias cc="claude --dangerously-skip-permissions"
+alias ccw="claude --dangerously-skip-permissions --worktree"
 
 # utility functions
 

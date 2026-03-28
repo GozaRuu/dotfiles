@@ -42,6 +42,8 @@ solarized8 dark + undercurl spell check + vim-markdown with fenced syntax highli
 
 p10k prompt, fzf everywhere, bat for previews, aliases for the lazy:
 
+- `cc` claude code (bypass permissions)
+- `ccw` claude code (bypass + worktree)
 - `vv` edit vimrc
 - `zz` edit zshrc
 - `gs` git status
