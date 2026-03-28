@@ -1,97 +1,23 @@
-# Load Power10k
+# Load Power10k instant prompt
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# oh-my-zsh
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="honukai"
-
 CASE_SENSITIVE="true"
-
-zstyle ':omz:update' mode auto      # update automatically without asking
-
+zstyle ':omz:update' mode auto
 zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 COMPLETION_WAITING_DOTS="%F{green}...%f"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 plugins=(git macos zsh-autosuggestions ssh-agent)
-
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# app config
-
-## mvim
-
+# mvim
 alias vim='mvim -v'
 export PATH=$PATH:/Applications/MacVim.app/Contents/bin
 
-## fzf
-
+# fzf
 export FZF_PREVIEW_COMMAND="bat --style=numbers,changes --wrap never --color always {} || cat {} || tree -C {}"
-
 export FZF_DEFAULT_OPTS="--no-mouse --height 50% -1 --reverse --multi --inline-info
 --preview='bat --style=numbers --color=always {} || cat {}'
 --preview-window='right:wrap'
@@ -104,67 +30,49 @@ export FZF_DEFAULT_COMMAND="git ls-files --cached --others --exclude-standard | 
 export FZF_CTRL_T_COMMAND="fd $FD_OPTIONS"
 export FZF_ALT_C_COMMAND="fd --type d $FD_OPTIONS"
 
-## bat
-
 export BAT_PAGER="less -R"
 
-# aliases
-
-## git
-
+# git aliases
 alias clean="git reset --hard && git clean -f -d"
 alias hard-clean="git clean -f -i -d -x"
 alias gl="git log --oneline"
 alias filehistory="git log --follow -- "
 alias gs="git status"
 alias grb="git branch --sort=-committerdate | head"
-alias rdiff="git diff $(git merge-base --fork-point main)"
+alias rdiff='git diff $(git merge-base --fork-point main)'
 alias main="git checkout main && git pull"
-alias dev="git checkout develop && git pull"
 
-## fast edit config Files
-
+# quick edit
 alias vv="vim ~/.vimrc"
 alias zz="vim ~/.zshrc"
 alias cc="claude --dangerously-skip-permissions"
 alias ccw="claude --dangerously-skip-permissions --worktree"
 
-# utility functions
-
-## kill a process on a specified port
-
+# utility
 kill_port() {
-  if [ -n "$1" ]
-  then
+  if [ -n "$1" ]; then
     lsof -ti :"$1" | xargs kill -9
   else
     echo "Pass in the port number."
   fi
 }
-
-## get servers listening
-
 alias oports="sudo lsof -i -P | grep LISTEN"
 
-# scripts to run
-
-## nvm
-
+# nvm
 export NVM_DIR="$HOME/.nvm"
-[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
-[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
 
-## fzf
+# fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Conda
-# !! Contents within this block are managed by 'conda init' !!
+# conda (mambaforge)
 __conda_setup="$('/opt/homebrew/Caskroom/mambaforge/base/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
     if [ -f "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/conda.sh" ]; then
-# . "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/conda.sh"  # commented out by conda initialize
+        . "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/conda.sh"
     else
         export PATH="/opt/homebrew/Caskroom/mambaforge/base/bin:$PATH"
     fi
@@ -175,13 +83,7 @@ if [ -f "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/mamba.sh" ]; then
     . "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/mamba.sh"
 fi
 
-## power10k
-source ~/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
+# conda (anaconda3)
 __conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
@@ -193,30 +95,27 @@ else
     fi
 fi
 unset __conda_setup
-# <<< conda initialize <<<
 
+# powerlevel10k
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # pnpm
-export PNPM_HOME="/Users/kaissghari/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end
-#
+
 # export ANTHROPIC_API_KEY=<set-in-env>
 
 . "$HOME/.local/bin/env"
 
-# bun completions
-[ -s "/Users/kaissghari/.bun/_bun" ] && source "/Users/kaissghari/.bun/_bun"
-
 # bun
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-alias claude-mem='/Users/kaissghari/.bun/bin/bun "/Users/kaissghari/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'
+# claude code
 export EXPO_UNSTABLE_MCP_SERVER=1
-
-# Claude Code - max output tokens
 export CLAUDE_CODE_MAX_OUTPUT_TOKENS=128000
