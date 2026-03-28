@@ -1,0 +1,9 @@
+[user]
+	name = Kais Sghari
+	email = kais.sghari@gmail.com
+
+[core]
+  pager = delta
+
+[delta]
+  line-numbers = true

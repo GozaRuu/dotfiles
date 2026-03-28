@@ -126,6 +126,7 @@ alias dev="git checkout develop && git pull"
 
 alias vv="vim ~/.vimrc"
 alias zz="vim ~/.zshrc"
+alias cc="claude --dangerously-skip-permissions"
 
 # utility functions
 
@@ -155,6 +156,66 @@ export NVM_DIR="$HOME/.nvm"
 ## fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# Conda
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/homebrew/Caskroom/mambaforge/base/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/conda.sh" ]; then
+# . "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/conda.sh"  # commented out by conda initialize
+    else
+        export PATH="/opt/homebrew/Caskroom/mambaforge/base/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+if [ -f "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/mamba.sh" ]; then
+    . "/opt/homebrew/Caskroom/mambaforge/base/etc/profile.d/mamba.sh"
+fi
+
 ## power10k
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+# pnpm
+export PNPM_HOME="/Users/kaissghari/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+#
+# export ANTHROPIC_API_KEY=<set-in-env>
+
+. "$HOME/.local/bin/env"
+
+# bun completions
+[ -s "/Users/kaissghari/.bun/_bun" ] && source "/Users/kaissghari/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+alias claude-mem='/Users/kaissghari/.bun/bin/bun "/Users/kaissghari/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'
+export EXPO_UNSTABLE_MCP_SERVER=1
+
+# Claude Code - max output tokens
+export CLAUDE_CODE_MAX_OUTPUT_TOKENS=128000

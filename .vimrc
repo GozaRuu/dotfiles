@@ -16,6 +16,16 @@ endif
 au BufRead,BufNewFile *.md setlocal spell
 au BufRead,BufNewFile *.txt setlocal spell
 set spellfile=$HOME/vim/spell/en.utf-8.add
+set spelloptions+=camel  " spell check understands CamelCase words (Vim 8.2+)
+
+" vim-markdown settings
+let g:vim_markdown_folding_disabled = 1         " don't auto-fold everything
+let g:vim_markdown_conceal = 0                  " show raw markdown syntax
+let g:vim_markdown_conceal_code_blocks = 0      " show code block markers
+let g:vim_markdown_fenced_languages = ['typescript=typescript', 'ts=typescript', 'javascript=javascript', 'js=javascript', 'json=json', 'swift=swift', 'bash=sh', 'shell=sh', 'python=python', 'ruby=ruby', 'yaml=yaml', 'tsx=typescriptreact', 'jsx=javascriptreact', 'dot=dot']
+let g:vim_markdown_new_list_item_indent = 2     " sensible list indentation
+let g:vim_markdown_strikethrough = 1             " ~~strikethrough~~ support
+let g:vim_markdown_no_extensions_in_markdown = 1 " don't need .md extension for links
 
 " enable mouse mode in all modes
 set mouse=a
@@ -54,7 +64,7 @@ set foldmethod=syntax
 set foldlevel=99
 
 " Enable folding with the z key
-nmap z za
+" nmap z za
 
 " disable all bells and whistles
 set noerrorbells visualbell t_vb=
@@ -342,7 +352,7 @@ imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-buffer-line)
 
 " Coc.nvim extensions
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-tsserver', 'coc-eslint', 'coc-html', 'coc-yank']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-tsserver', 'coc-eslint', 'coc-html', 'coc-yank', 'coc-pyright', 'coc-svg']
 
 " Plugs
 
@@ -373,6 +383,7 @@ Plug 'HerringtonDarkholme/yats.vim' " TypeScript syntax
 Plug 'maxmellon/vim-jsx-pretty'   " js and jsx syntax
 Plug 'jparise/vim-graphql'        " GraphQL syntax
 Plug 'prisma/vim-prisma'        " GraphQL syntax
+Plug 'maxmellon/vim-jsx-pretty' " JSX
 
 " git
 Plug 'airblade/vim-gitgutter'
@@ -388,7 +399,7 @@ Plug 'yssl/QFEnter'
 " Markdown
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
-Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+" Plug 'suan/vim-instant-markdown', {'for': 'markdown'}  " DISABLED — instant-markdown-d not installed
 
 " CSV
 Plug 'chrisbra/csv.vim'
@@ -402,13 +413,39 @@ Plug 'vim-test/vim-test'
 " scrolling
 Plug 'psliwka/vim-smoothie'
 
+" Abloish - for chaning cameCase to dashCase
+Plug 'tpope/vim-abolish'
+
 " Screenplays
 " Plug 'kblin/vim-fountain'
+"
+Plug 'evanleck/vim-svelte'
+
+" Colorscheme
+Plug 'lifepillar/vim-solarized8'
 
 call plug#end()
 
 " Fix syntax highlight for Coc plugin floating errors
 " hi CocErrorFloat guifg=Magenta guibg=Magenta
+
+" --- True color + undercurl support (iTerm2 3.5+) ---
+set termguicolors
+let &t_Cs = "\e[4:3m"
+let &t_Ce = "\e[4:0m"
+
+" --- Colorscheme ---
+silent! colorscheme solarized8
+
+" --- Spell highlights (survive colorscheme changes) ---
+augroup SpellHighlight
+  autocmd!
+  autocmd ColorScheme * highlight SpellBad   cterm=undercurl ctermul=167 ctermbg=NONE guisp=#dc322f gui=undercurl guibg=NONE
+  autocmd ColorScheme * highlight SpellCap   cterm=undercurl ctermul=110 ctermbg=NONE guisp=#268bd2 gui=undercurl guibg=NONE
+  autocmd ColorScheme * highlight SpellRare  cterm=undercurl ctermul=108 ctermbg=NONE guisp=#2aa198 gui=undercurl guibg=NONE
+  autocmd ColorScheme * highlight SpellLocal cterm=undercurl ctermul=176 ctermbg=NONE guisp=#d33682 gui=undercurl guibg=NONE
+augroup END
+doautocmd ColorScheme
 
 
 " Black Magic

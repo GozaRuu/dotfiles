@@ -1,42 +1,13 @@
 {
   "coc.preferences.formatOnSaveFiletypes": [
-    "html",
-    "css",
-    "python",
-    "javascript",
     "markdown",
+    "javascript",
+    "javascriptreact",
     "typescript",
-    "sh",
+    "typescriptreact",
     "json",
-    "powershell"
+    "graphql"
   ],
-  "python.linting.pep8Enabled": true,
-  "python.jediEnabled": false,
-  "tsserver.enable": true,
-  "tsserver.enableJavascript": true,
-  "tsserver.npm": "/usr/local/bin/npm",
-  "prettier.semi": false,
-  "prettier.singleQuote": true,
-  "solargraph.hover": true,
-  "solargraph.diagnostics": true,
-  "solargraph.formatting": true,
-  "solargraph.autoformat": true,
-  "languageserver": {
-    "tsserver": {
-      "module": "/Users/kais/.config/coc/extensions/node_modules/coc-tsserver/bin/tsserverForkStart.js",
-      "filetypes": ["typescript", "javascript"]
-    }
-  },
-  "diagnostic-languageserver.filetypes": {
-    "sh": "shellcheck"
-  },
-  "diagnostic-languageserver.formatFiletypes": {
-    "sh": "shfmt"
-  },
-  "diagnostic-languageserver.formatters": {
-    "shfmt": {
-      "command": "shfmt",
-      "args": ["-i", "2", "-bn", "-ci", "-sr"]
-    }
-  }
+  "tsserver.useLocalTsdk": true,
+  "svelte.enable-ts-plugin": false
 }
