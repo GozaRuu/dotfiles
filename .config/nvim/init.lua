@@ -138,6 +138,13 @@ require("lazy").setup({
           "yaml", "graphql", "prisma", "vim", "vimdoc", "regex",
         },
       })
+      -- enable treesitter highlighting (new API requires explicit enable)
+      vim.treesitter.start = vim.treesitter.start or function() end
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(args)
+          pcall(vim.treesitter.start, args.buf)
+        end,
+      })
     end,
   },
 
@@ -284,7 +291,13 @@ require("lazy").setup({
     config = function()
       require("nvim-tree").setup({
         view = { width = 30 },
-        filters = { dotfiles = false },
+        filters = { dotfiles = true },
+        on_attach = function(bufnr)
+          local api = require("nvim-tree.api")
+          api.config.mappings.default_on_attach(bufnr)
+          -- toggle dotfiles with I (like NERDTree)
+          vim.keymap.set("n", "I", api.tree.toggle_hidden_filter, { buffer = bufnr })
+        end,
       })
       map("n", "<C-n>", ":NvimTreeToggle<CR>")
       map("n", "<C-m>", ":NvimTreeFindFile<CR>")
@@ -347,7 +360,12 @@ require("lazy").setup({
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     ft = "markdown",
     config = function()
-      require("render-markdown").setup({})
+      require("render-markdown").setup({
+        code = {
+          style = "full",
+          border = "thick",
+        },
+      })
     end,
   },
   { "godlygeek/tabular", cmd = "Tabularize" },
@@ -374,6 +392,18 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     vim.api.nvim_set_hl(0, "SpellCap", { undercurl = true, sp = "#268bd2" })
     vim.api.nvim_set_hl(0, "SpellRare", { undercurl = true, sp = "#2aa198" })
     vim.api.nvim_set_hl(0, "SpellLocal", { undercurl = true, sp = "#d33682" })
+    -- code block background contrast
+    vim.api.nvim_set_hl(0, "RenderMarkdownCode", { bg = "#073642" })
+    vim.api.nvim_set_hl(0, "RenderMarkdownCodeInline", { bg = "#073642", fg = "#cb4b16" })
+    -- transparent bg — use terminal's background
+    vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#073642" })
+    vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE" })
+    -- line numbers
+    vim.api.nvim_set_hl(0, "LineNr", { fg = "#586e75", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#b58900", bold = true })
+    vim.api.nvim_set_hl(0, "CursorLine", { bg = "#073642" })
   end,
 })
 vim.cmd("doautocmd ColorScheme")
